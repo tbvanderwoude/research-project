@@ -14,11 +14,12 @@ from python.benchmarks.parse_map import MapParser
 from python.benchmarks.run_with_timeout import run_with_timeout
 from python.mstar.rewrite import Config, MatchingStrategy
 from python.mstar.rewrite.config import GigaByte
+from python.benchmarks.comparison.icts import ICTS
 from python.solvers.configurable_mstar_solver import ConfigurableMStar
 
 this_dir = pathlib.Path(__file__).parent.absolute()
 name = "comparison_obstacle_1teams_maps"
-processes = 2
+processes = 12
 
 def run(solver: Callable[[], MapfAlgorithm], bm_name: str):
     batchdir = this_dir / name
@@ -69,20 +70,8 @@ def main():
     files: list[tuple[pathlib.Path, str]] = []
 
     files.append(run(
-        lambda: ConfigurableMStar(
-            Config(
-                operator_decomposition=True,
-                precompute_paths=False,
-                precompute_heuristic=True,
-                collision_avoidance_table=False,
-                recursive=False,
-                matching_strategy=MatchingStrategy.SortedPruningPrematch,
-                max_memory_usage=3 * GigaByte,
-                debug=False,
-                report_expansions=False,
-            ),
-        ),
-        "M*"
+        lambda: ICTS(),
+        "ICTS"
     ))
 
     graph_results(

@@ -7,6 +7,7 @@ from tqdm import tqdm
 from python.algorithm import MapfAlgorithm
 from python.benchmarks.extensions_25percent_3teams import read_from_file
 from python.benchmarks.graph_times import graph_results
+from python.benchmarks.comparison.icts import ICTS
 from python.benchmarks.inmatch_vs_prematch_75percent_1teams import output_data
 import pathlib
 
@@ -18,7 +19,7 @@ from python.solvers.configurable_mstar_solver import ConfigurableMStar
 
 this_dir = pathlib.Path(__file__).parent.absolute()
 name = "comparison_maze_1teams_maps"
-processes = 8
+processes = 12
 
 def run(solver: Callable[[], MapfAlgorithm], bm_name: str):
     batchdir = this_dir / name
@@ -69,20 +70,8 @@ def main():
     files: list[tuple[pathlib.Path, str]] = []
 
     files.append(run(
-        lambda: ConfigurableMStar(
-            Config(
-                operator_decomposition=True,
-                precompute_paths=False,
-                precompute_heuristic=True,
-                collision_avoidance_table=False,
-                recursive=False,
-                matching_strategy=MatchingStrategy.SortedPruningPrematch,
-                max_memory_usage=3 * GigaByte,
-                debug=False,
-                report_expansions=False,
-            ),
-        ),
-        "M*"
+        lambda: ICTS(),
+        "ICTS"
     ))
 
     graph_results(

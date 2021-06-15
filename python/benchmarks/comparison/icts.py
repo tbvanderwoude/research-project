@@ -9,7 +9,7 @@ this_dir = pathlib.Path(__file__).parent.absolute()
 
 from python.algorithm import MapfAlgorithm
 
-sys.path.insert(0, str(this_dir / "icts-m"))
+sys.path.insert(0, str("/home/tbvanderwoude/repos/rp"))
 from src.ictsm .solver import Solver
 from src.ictsm .solver_config import SolverConfig
 sys.path.pop(0)
